@@ -18,29 +18,29 @@ class group:
         self.CN = 0
         self.totalrank = 0
     def cont_update(self,m):
-        if m == 0:
+        if m[1] == 0:
             self.EU += 1
-        elif m == 1:
+        elif m[1] == 1:
             self.AS += 1
-        elif m == 2:
+        elif m[1] == 2:
             self.SA += 1
-        elif m == 3:
+        elif m[1] == 3:
             self.AF += 1
-        elif m == 4:
+        elif m[1] == 4:
             self.CN += 1
         else:
-            print 'Wrong data in ' + nation[0]
+            print 'Wrong data in ' + m[0]
     
     def valid_check(self,k):
-        if k == 0 and self.EU == 2:
+        if k[1] == 0 and self.EU == 2:
             return False
-        elif k == 1 and self.AS == 1:
+        elif k[1] == 1 and self.AS == 1:
             return False
-        elif k == 2 and self.SA == 1:
+        elif k[1] == 2 and self.SA == 1:
             return False
-        elif k == 3 and self.AF == 1:
+        elif k[1] == 3 and self.AF == 1:
             return False
-        elif k == 4 and self.CN == 1:
+        elif k[1] == 4 and self.CN == 1:
             return False
         else:
             return True
@@ -64,8 +64,8 @@ def team_select(result,pot):
     for index in range(0,8):
         get_flag = False
         for key,nation in enumerate(temp):
-            if result[index].valid_check(nation[1]):
-                result[index].cont_update(nation[1])
+            if result[index].valid_check(nation):
+                result[index].cont_update(nation)
                 result[index].nations.append(nation[0])
                 temp.pop(key)
                 get_flag = True
