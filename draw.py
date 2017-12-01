@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import random
 import copy
 
@@ -60,7 +62,12 @@ class group:
 def team_select(result,pot): 
     back_up = copy.deepcopy(result)
     temp = copy.deepcopy(pot)
-    random.shuffle(temp)
+    if ['Russia', 0, 65] in temp:
+        temp2 = temp[1:]
+        random.shuffle(temp2)
+        temp[1:] = temp2
+    else:
+        random.shuffle(temp)
     for index in range(0,8):
         get_flag = False
         for key,nation in enumerate(temp):
