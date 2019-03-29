@@ -2,7 +2,7 @@
 
 import random
 import copy
-
+#fifa 2017 October ranking: https://www.fifa.com/fifa-world-ranking/ranking-table/men/rank/id11976/
 pot = [[['Russia', 0, 65], ['Germany', 0, 1], ['Brazil', 2, 2], ['Portugal', 0, 3], ['Argentina', 2, 4], ['Belgium', 0, 5], ['Poland', 0, 6], ['France', 0, 7]],
 [['Spain', 0, 8], ['Peru', 2, 10], ['Switzerland', 0, 11], ['England', 0, 12], ['Colombia', 2, 13], ['Mexico', 4, 16], ['Uruguay', 2, 17], ['Croatia', 0, 18]],
 [['Denmark', 0, 19], ['Iceland', 0, 21], ['Costa Rica', 4, 22], ['Sweden', 0, 25], ['Tunisia', 3, 28], ['Egypt', 3, 30], ['Senegal', 3, 32], ['Iran', 1, 34]],
@@ -31,7 +31,7 @@ class group:
         elif m[1] == 4:
             self.CN += 1
         else:
-            print 'Wrong data in ' + m[0]
+            print ('Wrong data in ' + m[0])
     
     def valid_check(self,k):
         if k[1] == 0 and self.EU == 2:
@@ -91,4 +91,4 @@ for item in pot:
     result = team_select(result,item)
 
 for item in result:
-    print str(item.id) + " : " + str(item.nations)
+    print (str(item.id) + " : " + str(item.nations))
