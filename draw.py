@@ -13,6 +13,41 @@ pot = [[['Russia',0,65],['Germany', 0, 1], ['Brazil', 2, 2], ['Portugal', 0, 3],
 [['Netherlands',0,20],['Costa Rica', 4, 22],['Republic of Ireland',0,26],['USA', 4, 27],['Ukraine',0,30],['Senegal', 3, 32], ['Iran', 1, 34],['Congo DR',3,35]],
 [['Nigeria', 3, 41],['Australia', 1, 43],['Japan', 1, 44],['Czech Republic',0,46],['Morocco', 3, 48],['South Korea', 1, 62], ['Algeria',3,67],['Honduras',4,69] ]]
 
+beginner = [['乌咪',0],['孙小美',0],['糖糖',0]]
+middle = [['阿土伯',1],['小丹尼',1],['沙隆巴斯',1],['宫本宝藏',1],['莎拉公主',1]]
+upper = [['钱夫人',2],['忍太郎',2],['约翰乔',2],['金贝贝',2]]
+
+class dfw_group:
+    def __init__(self,n):
+        self.id = chr(n + 65)     
+        self.nations = []
+        self.BEG = 0
+        self.MID = 0
+        self.UPP = 0
+        self.totalrank = 0
+
+            
+    def cont_update(self,m):
+        if m[1] == 0:
+            self.BEG += 1
+        elif m[1] == 1:
+            self.MID += 1
+        elif m[1] == 2:
+            self.UPP += 1
+        else:
+            print ('Wrong data in ' + m[0])
+    
+    def valid_check(self,k):
+        if k[1] == 1 and self.MID == 2:
+            return False
+        elif k[1] == 0 and self.BEG == 1:
+            return False
+        elif k[1] == 2 and self.UPP == 1:
+            return False
+        else:
+            return True
+
+
 class group:
 
     
@@ -67,7 +102,7 @@ class group:
         elif m == 4:
             self.CN -= 1
 
-def team_select(result,pot): 
+def team_select(result,pot,group_num): 
     back_up = copy.deepcopy(result)
     temp = copy.deepcopy(pot)
     if ['Russia', 0, 65] in temp:
@@ -76,7 +111,7 @@ def team_select(result,pot):
         temp[1:] = temp2
     else:
         random.shuffle(temp)
-    for index in range(0,8):
+    for index in range(0,group_num):
         get_flag = False
         for key,nation in enumerate(temp):
             if result[index].valid_check(nation):
@@ -87,7 +122,7 @@ def team_select(result,pot):
                 break
         if not get_flag:
             result = copy.deepcopy(back_up)
-            result = team_select(result,pot)
+            result = team_select(result,pot,group_num)
             break
     return result
 
@@ -103,16 +138,41 @@ def print_pots(pot,m):
         string = string[:-1]
         print(string)
 
-for i in range(4):
-    print_pots(pot,i)
+def random_move():
+    randNum = random.randint(0,4)
+    beginner_copy = copy.deepcopy(beginner)
+    middle_copy = copy.deepcopy(middle)
+    middleRand = middle_copy[randNum]
+    beginner_copy.append(middleRand)
+    middle_copy.remove(middleRand)
+    dfw_pot=[upper,middle_copy,beginner_copy]
+    print(middleRand[0]," is moved to pot 3!")
+    return dfw_pot
     
-result = []
-for i in range(0,8):
-    result.append(group(i))
 
+def world_cup_draw():
+    for i in range(4):
+        print_pots(pot,i)
+    result = []
+    for i in range(0,8):
+        result.append(group(i))
+    for item in pot:
+        result = team_select(result,item,8)
 
-for item in pot:
-    result = team_select(result,item)
+    for item in result:
+        print (str(item.id) + " : " + str(item.nations))
 
-for item in result:
-    print (str(item.id) + " : " + str(item.nations))
+def dfw_draw():
+    dfw_pot = random_move()
+    for i in range(3):
+        print_pots(dfw_pot,i)
+    result = []
+    for i in range(0,4):
+        result.append(dfw_group(i))
+    for item in dfw_pot:
+        result = team_select(result,item,4)
+
+    for item in result:
+        print (str(item.id) + " : " + str(item.nations))
+
+dfw_draw()
