@@ -2,6 +2,7 @@
 
 import random
 import copy
+import sys
 #fifa 2017 October ranking: https://www.fifa.com/fifa-world-ranking/ranking-table/men/rank/id11976/
 # pot = [[['Russia', 0, 65], ['Germany', 0, 1], ['Brazil', 2, 2], ['Portugal', 0, 3], ['Argentina', 2, 4], ['Belgium', 0, 5], ['Poland', 0, 6], ['France', 0, 7]],
 # [['Spain', 0, 8], ['Peru', 2, 10], ['Switzerland', 0, 11], ['England', 0, 12], ['Colombia', 2, 13], ['Mexico', 4, 16], ['Uruguay', 2, 17], ['Croatia', 0, 18]],
@@ -17,6 +18,10 @@ beginner = [['乌咪',0],['孙小美',0],['糖糖',0]]
 middle = [['阿土伯',1],['小丹尼',1],['沙隆巴斯',1],['宫本宝藏',1],['莎拉公主',1]]
 upper = [['钱夫人',2],['忍太郎',2],['约翰乔',2],['金贝贝',2]]
 
+first = [['约翰乔','A'],['小丹尼','B'],['莎拉公主','C'],['忍太郎','A']]
+runner_up = [['沙隆巴斯','B'],['孙小美','C'],['宫本宝藏','B'],['金贝贝','A']]
+last = [['乌咪','C'],['钱夫人','A'],['阿土伯','B'],['糖糖','C']]
+
 class dfw_group:
     def __init__(self,n):
         self.id = chr(n + 65)     
@@ -28,21 +33,21 @@ class dfw_group:
 
             
     def cont_update(self,m):
-        if m[1] == 0:
+        if m[1] == 'C':
             self.BEG += 1
-        elif m[1] == 1:
+        elif m[1] == 'B':
             self.MID += 1
-        elif m[1] == 2:
+        elif m[1] == 'A':
             self.UPP += 1
         else:
             print ('Wrong data in ' + m[0])
     
     def valid_check(self,k):
-        if k[1] == 1 and self.MID == 2:
+        if k[1] == 'B' and self.MID == 1:
             return False
-        elif k[1] == 0 and self.BEG == 1:
+        elif k[1] == 'C' and self.BEG == 1:
             return False
-        elif k[1] == 2 and self.UPP == 1:
+        elif k[1] == 'A' and self.UPP == 1:
             return False
         else:
             return True
@@ -101,6 +106,25 @@ class group:
             self.AF -= 1
         elif m == 4:
             self.CN -= 1
+
+def dfw_team_select(result,pot,group_num):
+    back_up = copy.deepcopy(result)
+    temp = copy.deepcopy(pot)
+    random.shuffle(temp)
+    for index in range(0,group_num):
+        get_flag = False
+        for key,nation in enumerate(temp):
+            if result[index].valid_check(nation):
+                result[index].cont_update(nation)
+                result[index].nations.append(nation[0])
+                temp.pop(key)
+                get_flag = True
+                break
+        if not get_flag:
+            result = copy.deepcopy(back_up)
+            result = dfw_team_select(result,pot,group_num)
+            break
+    return result
 
 def team_select(result,pot,group_num): 
     back_up = copy.deepcopy(result)
@@ -162,6 +186,19 @@ def world_cup_draw():
     for item in result:
         print (str(item.id) + " : " + str(item.nations))
 
+def dfw_r2_draw():
+    dfw_pot = [first,runner_up,last]
+    for i in range(3):
+        print_pots(dfw_pot,i)
+    result = []
+    for i in range(0,4):
+        result.append(dfw_group(i))
+    for item in dfw_pot:
+        result = dfw_team_select(result,item,4)
+
+    for item in result:
+        print (str(item.id) + " : " + str(item.nations))
+
 def dfw_draw():
     dfw_pot = random_move()
     for i in range(3):
@@ -175,4 +212,16 @@ def dfw_draw():
     for item in result:
         print (str(item.id) + " : " + str(item.nations))
 
-dfw_draw()
+
+
+if __name__ == "__main__":
+    a = sys.argv[0]
+    b = sys.argv[1]
+    if b=="dfw":
+        dfw_draw()
+    elif b=="dfw_r2":
+        dfw_r2_draw()
+    elif b=="wc":
+        world_cup_draw()
+    else:
+        print("no such commands are supported!")
