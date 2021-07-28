@@ -22,6 +22,12 @@ first = [['约翰乔','A'],['小丹尼','B'],['莎拉公主','C'],['忍太郎','
 runner_up = [['沙隆巴斯','B'],['孙小美','C'],['宫本宝藏','B'],['金贝贝','A']]
 last = [['乌咪','C'],['钱夫人','A'],['阿土伯','B'],['糖糖','C']]
 
+
+tier_1 = [['钱夫人','A'],['沙隆巴斯','B'],['金贝贝','A']]
+tier_2 = [['孙小美','C'],['小丹尼','B'],['忍太郎','A']]
+tier_3 = [['莎拉公主','C'],['阿土伯','B'],['约翰乔','A']]
+tier_4 = [['宫本宝藏','B'],['糖糖','C'],['乌咪','C']]
+
 class dfw_group:
     def __init__(self,n):
         self.id = chr(n + 65)     
@@ -43,11 +49,11 @@ class dfw_group:
             print ('Wrong data in ' + m[0])
     
     def valid_check(self,k):
-        if k[1] == 'B' and self.MID == 1:
+        if k[1] == 'B' and ( ( self.MID == 1 and (self.UPP ==2 or self.BEG == 2) ) or self.MID == 2):
             return False
-        elif k[1] == 'C' and self.BEG == 1:
+        elif k[1] == 'C' and ( ( self.BEG == 1 and (self.UPP ==2 or self.MID == 2) ) or self.BEG == 2):
             return False
-        elif k[1] == 'A' and self.UPP == 1:
+        elif k[1] == 'A' and ( ( self.UPP == 1 and (self.BEG ==2 or self.MID == 2) ) or self.UPP == 2):
             return False
         else:
             return True
@@ -124,6 +130,8 @@ def dfw_team_select(result,pot,group_num):
             result = copy.deepcopy(back_up)
             result = dfw_team_select(result,pot,group_num)
             break
+    for group in result:
+        random.shuffle(group.nations)
     return result
 
 def team_select(result,pot,group_num): 
@@ -187,14 +195,16 @@ def world_cup_draw():
         print (str(item.id) + " : " + str(item.nations))
 
 def dfw_r2_draw():
-    dfw_pot = [first,runner_up,last]
-    for i in range(3):
+    #dfw_pot = [first,runner_up,last]
+    dfw_pot = [tier_1,tier_2,tier_3,tier_4]
+    for i in range(4):
         print_pots(dfw_pot,i)
     result = []
-    for i in range(0,4):
+    for i in range(0,3):
         result.append(dfw_group(i))
+    
     for item in dfw_pot:
-        result = dfw_team_select(result,item,4)
+        result = dfw_team_select(result,item,3)
 
     for item in result:
         print (str(item.id) + " : " + str(item.nations))
@@ -207,7 +217,7 @@ def dfw_draw():
     for i in range(0,4):
         result.append(dfw_group(i))
     for item in dfw_pot:
-        result = team_select(result,item,4)
+        result = team_select(result,item,3)
 
     for item in result:
         print (str(item.id) + " : " + str(item.nations))
