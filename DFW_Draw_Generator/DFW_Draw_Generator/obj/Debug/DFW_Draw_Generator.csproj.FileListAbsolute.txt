@@ -8,3 +8,14 @@ C:\Users\HUAWEI\source\repos\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW
 C:\Users\HUAWEI\source\repos\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.csproj.CoreCompileInputs.cache
 C:\Users\HUAWEI\source\repos\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.exe
 C:\Users\HUAWEI\source\repos\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.pdb
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\bin\Debug\DFW_Draw_Generator.exe.config
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\bin\Debug\DFW_Draw_Generator.exe
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\bin\Debug\DFW_Draw_Generator.pdb
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.csproj.AssemblyReference.cache
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.GroupStageForm.resources
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.HomeForm.resources
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.Properties.Resources.resources
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.csproj.GenerateResource.cache
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.csproj.CoreCompileInputs.cache
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.exe
+C:\Users\HUAWEI\Documents\GitHub\2018_world_cup_draw\DFW_Draw_Generator\DFW_Draw_Generator\obj\Debug\DFW_Draw_Generator.pdb

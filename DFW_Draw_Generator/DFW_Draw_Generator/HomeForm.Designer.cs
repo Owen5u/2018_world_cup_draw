@@ -42,6 +42,7 @@ namespace DFW_Draw_Generator
             this.button_ranking_stage.TabIndex = 0;
             this.button_ranking_stage.Text = "排位赛";
             this.button_ranking_stage.UseVisualStyleBackColor = true;
+            this.button_ranking_stage.Click += new System.EventHandler(this.button_ranking_stage_Click);
             // 
             // button_group_stage
             // 
@@ -51,6 +52,7 @@ namespace DFW_Draw_Generator
             this.button_group_stage.TabIndex = 1;
             this.button_group_stage.Text = "小组赛";
             this.button_group_stage.UseVisualStyleBackColor = true;
+            this.button_group_stage.Click += new System.EventHandler(this.button_group_stage_Click);
             // 
             // button1
             // 
