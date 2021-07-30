@@ -3,6 +3,7 @@
 import random
 import copy
 import sys
+import datetime
 #fifa 2017 October ranking: https://www.fifa.com/fifa-world-ranking/ranking-table/men/rank/id11976/
 # pot = [[['Russia', 0, 65], ['Germany', 0, 1], ['Brazil', 2, 2], ['Portugal', 0, 3], ['Argentina', 2, 4], ['Belgium', 0, 5], ['Poland', 0, 6], ['France', 0, 7]],
 # [['Spain', 0, 8], ['Peru', 2, 10], ['Switzerland', 0, 11], ['England', 0, 12], ['Colombia', 2, 13], ['Mexico', 4, 16], ['Uruguay', 2, 17], ['Croatia', 0, 18]],
@@ -223,15 +224,52 @@ def dfw_draw():
         print (str(item.id) + " : " + str(item.nations))
 
 
+def dfw_group_stage_schedule():
+    
+    start_date = datetime.date(2010, 1, 1)
+
+    end_date = datetime.date(2011, 1, 1)
+
+    time_between_dates = end_date - start_date
+
+    days_between_dates = time_between_dates.days
+
+    random_number_of_days = random.randrange(days_between_dates)
+
+    random_number_of_days_two = random.randrange(days_between_dates)
+
+    random_date = start_date + datetime.timedelta(days=random_number_of_days)
+
+    random_date_two = start_date + datetime.timedelta(days=random_number_of_days_two)
+
+    map = ["台湾","中国大陆","日本","美国"]
+
+    map2 = map.copy()
+
+    random.shuffle(map)
+
+    order = "先手" if random.randint(0,1) == 0 else "后手"
+
+    print("小组赛开始日期：1.",random_date," 2.",random_date_two)
+    print("选择地图: 1.",map[0]," 2.",map[1])
+    print("先后顺序: ",order)
 
 if __name__ == "__main__":
-    a = sys.argv[0]
-    b = sys.argv[1]
-    if b=="dfw":
-        dfw_draw()
-    elif b=="dfw_r2":
-        dfw_r2_draw()
-    elif b=="wc":
-        world_cup_draw()
-    else:
-        print("no such commands are supported!")
+    while(1):
+        try:
+            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程5.退出\n")
+            if input_val=="1":
+                world_cup_draw()
+
+            elif input_val=="2":
+                dfw_draw()
+            elif input_val=="3":
+                dfw_r2_draw()
+            elif input_val =="4":
+                dfw_group_stage_schedule()
+            elif input_val =="5":
+                exit()
+            else:
+                print("请重新输入!")
+        except Exception:
+            print("")
