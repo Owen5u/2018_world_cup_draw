@@ -257,7 +257,7 @@ def dfw_group_stage_schedule():
 if __name__ == "__main__":
     while(1):
         try:
-            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程5.退出\n")
+            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程 5.退出\n")
             if input_val=="1":
                 world_cup_draw()
 
