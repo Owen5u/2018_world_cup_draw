@@ -60,6 +60,8 @@ class dfw_group:
             return True
 
 
+    
+
 class group:
 
     
@@ -254,10 +256,91 @@ def dfw_group_stage_schedule():
     print("选择地图: 1.",map[0]," 2.",map[1])
     print("先后顺序: ",order)
 
+def dfw_knockout_draw():
+    group_d = ["d1","d2","d3"]
+    group_e = ["忍太郎","e2",""]
+    group_f = ["f1","f2","f3"]
+    group_runner_ups = ["d2","e2","f2"] 
+
+    
+    
+
+    r = random.randrange(6)
+    if r ==0:
+        pivot = group_d
+        pivot_next = group_e
+        pivot_prev = group_f
+    elif r==1:
+        pivot = group_e
+        pivot_next = group_f
+        pivot_prev = group_d
+    elif r==2:
+        pivot = group_e
+        pivot_next = group_f
+        pivot_prev = group_d
+    elif r==3:
+        pivot = group_d
+        pivot_next = group_f
+        pivot_prev = group_e
+    elif r==4:
+        pivot = group_e
+        pivot_next = group_d
+        pivot_prev = group_f
+    else:
+        pivot = group_f
+        pivot_next = group_e
+        pivot_prev = group_d
+    
+
+    
+
+
+    possible_rivalry_dict={pivot[0]:[pivot_next[2],pivot_prev[2]], pivot_next[0]:pivot_prev[1],pivot_prev[0]:[pivot[2],pivot_next[2]]}
+
+    if group_runner_ups.index(pivot[1]) < group_runner_ups.index(pivot_next[1]):
+        possible_rivalry_dict[pivot[1]] = pivot_next[1]
+    else:
+        possible_rivalry_dict[pivot_next[1]] = pivot[1]
+    
+    
+
+    only_choice = ""
+    
+    for k in possible_rivalry_dict.keys():
+        if isinstance(possible_rivalry_dict[k],list) and "" in possible_rivalry_dict[k]:
+
+            possible_rivalry_dict[k].remove("")
+            only_choice = ''.join(possible_rivalry_dict[k])
+            possible_rivalry_dict[k] = only_choice
+    
+    for k in possible_rivalry_dict.keys():
+        if isinstance(possible_rivalry_dict[k],list) and only_choice in possible_rivalry_dict[k]:
+            possible_rivalry_dict[k].remove(only_choice)
+            the_other_only_choice = ''.join(possible_rivalry_dict[k])
+            possible_rivalry_dict[k] = the_other_only_choice
+
+    knockout_list = []
+    for key,value in possible_rivalry_dict.items():
+        knockout_list.append([key,value])
+    
+    random.shuffle(knockout_list)
+    print("pivot :",pivot)
+    print("draw order,",str(r+1))
+    print(knockout_list)
+       
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     while(1):
         try:
-            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程 5.退出\n")
+            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程 5.大富翁淘汰赛抽签 6.大富翁淘汰赛赛程 7.退出\n")
             if input_val=="1":
                 world_cup_draw()
 
@@ -268,7 +351,11 @@ if __name__ == "__main__":
             elif input_val =="4":
                 dfw_group_stage_schedule()
             elif input_val =="5":
+                dfw_knockout_draw()
+            elif input_val =="6":
                 exit()
+            elif input_val =="7":
+                exit()   
             else:
                 print("请重新输入!")
         except Exception:
