@@ -29,6 +29,13 @@ tier_2 = [['孙小美','C'],['小丹尼','B'],['忍太郎','A']]
 tier_3 = [['莎拉公主','C'],['阿土伯','B'],['约翰乔','A']]
 tier_4 = [['宫本宝藏','B'],['糖糖','C'],['乌咪','C']]
 
+
+group_d = ["莎拉公主","金贝贝","宫本宝藏"]
+group_e = ["忍太郎","阿土伯","钱夫人"]
+group_f = ["约翰乔","沙隆巴斯",""]
+group_runner_ups = ["沙隆巴斯","金贝贝","阿土伯"] 
+
+
 class dfw_group:
     def __init__(self,n):
         self.id = chr(n + 65)     
@@ -257,13 +264,7 @@ def dfw_group_stage_schedule():
     print("先后顺序: ",order)
 
 def dfw_knockout_draw():
-    group_d = ["d1","d2","d3"]
-    group_e = ["忍太郎","e2",""]
-    group_f = ["f1","f2","f3"]
-    group_runner_ups = ["d2","e2","f2"] 
 
-    
-    
 
     r = random.randrange(6)
     if r ==0:
@@ -275,21 +276,21 @@ def dfw_knockout_draw():
         pivot_next = group_f
         pivot_prev = group_d
     elif r==2:
-        pivot = group_e
-        pivot_next = group_f
-        pivot_prev = group_d
+        pivot = group_f
+        pivot_next = group_d
+        pivot_prev = group_e
     elif r==3:
         pivot = group_d
         pivot_next = group_f
         pivot_prev = group_e
     elif r==4:
-        pivot = group_e
-        pivot_next = group_d
-        pivot_prev = group_f
-    else:
         pivot = group_f
         pivot_next = group_e
         pivot_prev = group_d
+    else:
+        pivot = group_e
+        pivot_next = group_d
+        pivot_prev = group_f
     
 
     
@@ -324,9 +325,10 @@ def dfw_knockout_draw():
         knockout_list.append([key,value])
     
     random.shuffle(knockout_list)
-    print("pivot :",pivot)
-    print("draw order,",str(r+1))
-    print(knockout_list)
+    print("抽签顺序: ",str(r+1))
+    print("对阵情况如下：")
+    for i in range(len(knockout_list)):
+        print("第",str(i+1),"场对决: ",knockout_list[i][0]," VS ",knockout_list[i][1])
        
 
 
