@@ -334,6 +334,27 @@ def dfw_knockout_draw():
 
 
 
+def dfw_knockout_schedule():
+
+
+    start_date = datetime.date(2010, 1, 1)
+    end_date = datetime.date(2011, 1, 1)
+    time_between_dates = end_date - start_date
+    days_between_dates = time_between_dates.days
+    random_days_list = []
+    random_number_of_days = random.randrange(days_between_dates)
+    random_number_of_days_two = random.randrange(days_between_dates)
+    random_number_of_days_three = random.randrange(days_between_dates)
+    random_days_list.append(start_date + datetime.timedelta(days=random_number_of_days))
+    random_days_list.append(start_date + datetime.timedelta(days=random_number_of_days_two))
+    random_days_list.append(start_date + datetime.timedelta(days=random_number_of_days_three))
+    map = ["台湾","中国大陆","日本","美国"]
+    random.shuffle(map)
+
+    print("本轮地图和时间:")
+    for i in range(3):
+        print("第",str(i+1),"轮: 地图: ",map[i]," 开始时间: ",random_days_list[i])
+
 
 
 
@@ -355,7 +376,7 @@ if __name__ == "__main__":
             elif input_val =="5":
                 dfw_knockout_draw()
             elif input_val =="6":
-                exit()
+                dfw_knockout_schedule()
             elif input_val =="7":
                 exit()   
             else:
