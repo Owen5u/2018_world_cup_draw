@@ -35,6 +35,14 @@ group_e = ["忍太郎","阿土伯","钱夫人"]
 group_f = ["约翰乔","沙隆巴斯",""]
 group_runner_ups = ["沙隆巴斯","金贝贝","阿土伯"] 
 
+map = ["台湾","中国大陆","日本","美国"]
+
+
+start_date = datetime.date(2010, 1, 1)
+end_date = datetime.date(2011, 1, 1)
+time_between_dates = end_date - start_date
+days_between_dates = time_between_dates.days
+
 
 class dfw_group:
     def __init__(self,n):
@@ -235,14 +243,6 @@ def dfw_draw():
 
 def dfw_group_stage_schedule():
     
-    start_date = datetime.date(2010, 1, 1)
-
-    end_date = datetime.date(2011, 1, 1)
-
-    time_between_dates = end_date - start_date
-
-    days_between_dates = time_between_dates.days
-
     random_number_of_days = random.randrange(days_between_dates)
 
     random_number_of_days_two = random.randrange(days_between_dates)
@@ -251,16 +251,16 @@ def dfw_group_stage_schedule():
 
     random_date_two = start_date + datetime.timedelta(days=random_number_of_days_two)
 
-    map = ["台湾","中国大陆","日本","美国"]
+
 
     map2 = map.copy()
 
-    random.shuffle(map)
+    random.shuffle(map2)
 
     order = "先手" if random.randint(0,1) == 0 else "后手"
 
     print("小组赛开始日期：1.",random_date," 2.",random_date_two)
-    print("选择地图: 1.",map[0]," 2.",map[1])
+    print("选择地图: 1.",map2[0]," 2.",map2[1])
     print("先后顺序: ",order)
 
 def dfw_knockout_draw():
@@ -332,38 +332,40 @@ def dfw_knockout_draw():
        
 
 
+def schedule_helper(round):
+    random_days_list = [""] * round
+    random_number_list = [""] * round
+    for i in range(round):
+        random_number_list[i] = random.randrange(days_between_dates)
+        random_days_list[i] = (start_date+ datetime.timedelta(days=random_number_list[i]))
+
+    map_copy = map.copy()
+    random.shuffle(map_copy)
+    if round>4 and round <=8 :
+        map_copy2 = map.copy()
+        random.shuffle(map_copy2)
+        map_copy += map_copy2
+    print("本轮地图和时间:")
+    for i in range(round):
+        print("第",str(i+1),"轮: 地图: ",map_copy[i]," 开始时间: ",random_days_list[i])
 
 
 def dfw_knockout_schedule():
+    schedule_helper(3)
 
 
-    start_date = datetime.date(2010, 1, 1)
-    end_date = datetime.date(2011, 1, 1)
-    time_between_dates = end_date - start_date
-    days_between_dates = time_between_dates.days
-    random_days_list = []
-    random_number_of_days = random.randrange(days_between_dates)
-    random_number_of_days_two = random.randrange(days_between_dates)
-    random_number_of_days_three = random.randrange(days_between_dates)
-    random_days_list.append(start_date + datetime.timedelta(days=random_number_of_days))
-    random_days_list.append(start_date + datetime.timedelta(days=random_number_of_days_two))
-    random_days_list.append(start_date + datetime.timedelta(days=random_number_of_days_three))
-    map = ["台湾","中国大陆","日本","美国"]
-    random.shuffle(map)
-
-    print("本轮地图和时间:")
-    for i in range(3):
-        print("第",str(i+1),"轮: 地图: ",map[i]," 开始时间: ",random_days_list[i])
+def dfw_knockout_ranking():
+    schedule_helper(1)
 
 
-
-
+def dfw_final():
+    schedule_helper(5)
 
 
 if __name__ == "__main__":
     while(1):
         try:
-            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程 5.大富翁淘汰赛抽签 6.大富翁淘汰赛赛程 7.退出\n")
+            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程 5.大富翁淘汰赛抽签 6.大富翁淘汰赛赛程 7.大富翁排位赛赛程 8.大富翁总决赛赛程 9.退出\n")
             if input_val=="1":
                 world_cup_draw()
 
@@ -378,7 +380,12 @@ if __name__ == "__main__":
             elif input_val =="6":
                 dfw_knockout_schedule()
             elif input_val =="7":
-                exit()   
+                dfw_knockout_ranking()
+            elif input_val == "8":
+                dfw_final()
+            elif input_val =="9":
+                exit()
+ 
             else:
                 print("请重新输入!")
         except Exception:
