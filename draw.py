@@ -37,6 +37,13 @@ group_runner_ups = ["沙隆巴斯","金贝贝","阿土伯"]
 
 map = ["台湾","中国大陆","日本","美国"]
 
+group_a = ["西班牙","塞尔维亚"]
+group_b = ["美国","日本","法国"]
+group_c = ["中国","比利时","澳大利亚"]
+
+olympic_groups = [group_a,group_b,group_c]
+best_runner_up = "比利时"
+
 
 start_date = datetime.date(2010, 1, 1)
 end_date = datetime.date(2011, 1, 1)
@@ -362,6 +369,78 @@ def dfw_final():
     schedule_helper(5)
 
 
+
+def olympic_knockout_stage_draw():
+    upper_half = [i[0] for i in olympic_groups]
+    remaining_runner_ups = [i[1] for i in olympic_groups if i[1] != best_runner_up]
+    lower_half = remaining_runner_ups+ [i[2] for i in olympic_groups if len(i)==3]
+    upper_half.append(best_runner_up)
+    random.shuffle(upper_half)
+    random.shuffle(lower_half)
+
+    best_runner_up_opponent = remaining_runner_ups[random.randint(0,1)]
+    vs_table = [[best_runner_up,best_runner_up_opponent]]
+    vs_table_temp=[]
+    upper_half.remove(best_runner_up)
+    lower_half.remove(best_runner_up_opponent)
+    lower_half_copy = lower_half.copy()
+
+    backtracking(vs_table_temp,upper_half,lower_half,lower_half_copy,0,0)
+    for i in vs_table_temp:
+        vs_table.append([upper_half[i[0]],lower_half[i[1]]])
+    random.shuffle(vs_table)
+    print(vs_table)
+
+
+    # return
+
+def check_availibility(list,a,b):
+    if b not in list:
+        return False
+    for i in olympic_groups:
+        if a in i and b in i:
+            return False
+    return True
+
+
+def backtracking(table,list_a,list_b,list_b_copy,index_a,index_b):
+    if index_a >= len(list_a):
+        return
+
+    if index_b >= len(list_b):
+        last = table[-1]
+        table.remove(last)
+        list_b_copy.append(list_b[last[1]])
+        backtracking(table,list_a,list_b,list_b_copy,last[0],last[1]+1)
+        return
+        
+
+    if not check_availibility(list_b_copy,list_a[index_a],list_b[index_b]):
+        backtracking(table,list_a,list_b,list_b_copy,index_a,index_b+1)
+        return
+    
+    table.append([index_a,index_b])
+    list_b_copy.remove(list_b[index_b])
+    backtracking(table,list_a,list_b,list_b_copy,index_a+1,0)
+    
+    return
+
+
+
+# def testing():
+#     A=["中国","西班牙","美国"]
+#     B=["塞尔维亚","澳大利亚","法国"]
+#     B_copy= B.copy()
+#     table=[]
+#     backtracking(table,A,B,B_copy,0,0)
+
+#     print("Final table :",table)
+
+
+
+
+
+
 if __name__ == "__main__":
     while(1):
         try:
@@ -385,7 +464,8 @@ if __name__ == "__main__":
                 dfw_final()
             elif input_val =="9":
                 exit()
- 
+            elif input_val =="10":
+                olympic_knockout_stage_draw()
             else:
                 print("请重新输入!")
         except Exception:
