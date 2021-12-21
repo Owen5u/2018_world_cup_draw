@@ -116,7 +116,7 @@ def print_pots(pot,m):
             return 'Error!'
         cur_pot = pot[m]
         string = ""
-        string += "Pot "+str(m+1)+"("+ str(len(cur_pot))+" teams): "
+        string += "第 "+str(m+1)+" 档 : "
         for i in cur_pot:
             string += i[0] + ","
         string = string[:-1]
@@ -162,8 +162,17 @@ def dfw_classification_draw():
     for item in dfw_pot:
         result = dfw_team_select(result,item,4,False)
 
+
     for item in result:
-        print (str(item.id) + " : " + str(item.nations))
+        string = ""
+        for nation in (item.nations):
+            string += nation + ","
+        string = string[:-1]
+        print (str(item.id) + "组 : " + string)
+    for i in range(4):
+        print(chr(65+i),"组赛程：")
+        schedule_helper(6)
+    
 
 
 def dfw_group_stage_schedule():
@@ -263,6 +272,8 @@ def schedule_helper(round):
     for i in range(round):
         random_number_list[i] = random.randrange(days_between_dates)
         random_days_list[i] = (start_date+ datetime.timedelta(days=random_number_list[i]))
+        y,m,d = str(random_days_list[i].year),str(random_days_list[i].month),str(random_days_list[i].day)
+        random_days_list[i] = y + "/" + m + "/" + d
 
     map_copy = map.copy()
     random.shuffle(map_copy)
@@ -270,7 +281,6 @@ def schedule_helper(round):
         map_copy2 = map.copy()
         random.shuffle(map_copy2)
         map_copy += map_copy2
-    print("本轮地图和时间:")
     for i in range(round):
         print("第",str(i+1),"轮: 地图: ",map_copy[i]," 开始时间: ",random_days_list[i])
 
@@ -286,7 +296,8 @@ def dfw_knockout_ranking():
 def dfw_final():
     schedule_helper(5)
 
-
+def def_classification_final_round_schedule():
+    schedule_helper(4)
 
 def olympic_knockout_stage_draw():
     upper_half = [i[0] for i in olympic_groups]
@@ -360,23 +371,24 @@ def backtracking(table,list_a,list_b,list_b_copy,index_a,index_b):
 if __name__ == "__main__":
     while(1):
         try:
-            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁小组赛分组 4.大富翁小组赛赛程 5.大富翁淘汰赛抽签 6.大富翁淘汰赛赛程 7.大富翁排位赛赛程 8.大富翁总决赛赛程 0.退出\n")
+            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁排位赛决赛轮赛程 4.大富翁小组赛分组 5.大富翁小组赛赛程 6.大富翁淘汰赛抽签 7.大富翁淘汰赛赛程 8.大富翁排位赛赛程 9.大富翁总决赛赛程 0.退出\n")
             if input_val=="1":
                 world_cup_draw()
-
             elif input_val=="2":
-                dfw_classification_draw()  
+                dfw_classification_draw()
             elif input_val=="3":
+                def_classification_final_round_schedule()
+            elif input_val=="4":
                 dfw_r2_draw()
-            elif input_val =="4":
-                dfw_group_stage_schedule()
             elif input_val =="5":
-                dfw_knockout_draw()
+                dfw_group_stage_schedule()
             elif input_val =="6":
-                dfw_knockout_schedule()
+                dfw_knockout_draw()
             elif input_val =="7":
+                dfw_knockout_schedule()
+            elif input_val =="8":
                 dfw_knockout_ranking()
-            elif input_val == "8":
+            elif input_val == "9":
                 dfw_final()
             elif input_val =="0":
                 exit()
