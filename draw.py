@@ -183,7 +183,7 @@ def dfw_classification_draw():
         schedule_helper(6)
     
 def dfw_group_stage_schedule():
-    for i in ['D','E','F']:
+    for i in ['E','F','G']:
         print(i,"组赛程:")
         schedule_helper(6,False)
 
