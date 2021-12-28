@@ -6,10 +6,15 @@ class dfw_group:
         self.BEG = 0
         self.MID = 0
         self.UPP = 0
+        self.GA = 0
+        self.GB = 0
+        self.GC = 0
+        self.GD = 0
         self.totalrank = 0
 
             
     def member_update(self,m,flag):
+        
         if m[1] == 'C':
             self.BEG += 1
         elif m[1] == 'B':
@@ -18,6 +23,15 @@ class dfw_group:
             self.UPP += 1
         elif flag:
             print ('Wrong data in ' + m[0])
+        if len(m) == 3:
+            if m[2] == 0:
+                self.GA +=1
+            elif m[2] == 1:
+                self.GB +=1
+            elif m[2] == 2:
+                self.GC +=1
+            elif m[2] == 3:
+                self.GC += 1
     
     def valid_check(self,k):
         if k[1] == 'B' and ( ( self.MID == 1 and (self.UPP ==2 or self.BEG == 2) ) or self.MID == 2):
@@ -29,6 +43,24 @@ class dfw_group:
         else:
             return True
 
+    def valid_check_ver_2(self,k):
+        if k[1] == 'B' and  self.MID == 2:
+            return False
+        elif k[1] == 'C' and self.BEG == 2:
+            return False
+        elif k[1] == 'A' and self.UPP == 2:
+            return False
+        if k[2] == 0 and self.GA == 2:
+            return False
+        elif k[2] == 1 and self.GB == 2:
+            return False
+        elif k[2] == 2 and self.GC == 2:
+            return False
+        elif k[2] == 3 and self.GD == 2:
+            return False
+        return True
+
+ 
 
    
 

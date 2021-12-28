@@ -32,10 +32,15 @@ runner_up = [['沙隆巴斯','B'],['孙小美','C'],['宫本宝藏','B'],['金�
 last = [['乌咪','C'],['钱夫人','A'],['阿土伯','B'],['糖糖','C']]
 
 
-tier_1 = [['钱夫人','A'],['沙隆巴斯','B'],['金贝贝','A']]
-tier_2 = [['孙小美','C'],['小丹尼','B'],['忍太郎','A']]
-tier_3 = [['莎拉公主','C'],['阿土伯','B'],['约翰乔','A']]
-tier_4 = [['宫本宝藏','B'],['糖糖','C'],['乌咪','C']]
+# tier_1 = [['钱夫人','A'],['沙隆巴斯','B'],['金贝贝','A']]
+# tier_2 = [['孙小美','C'],['小丹尼','B'],['忍太郎','A']]
+# tier_3 = [['莎拉公主','C'],['阿土伯','B'],['约翰乔','A']]
+# tier_4 = [['宫本宝藏','B'],['糖糖','C'],['乌咪','C']]
+
+tier_1 = [['约翰乔','A',2],['宫本宝藏','B',1],['莎拉公主','C',0]]
+tier_2 = [['金贝贝','A',3],['乌咪','C',1],['钱夫人','A',0]]
+tier_3 = [['小丹尼','B',3],['沙隆巴斯','B',2],['孙小美','C',2]]
+tier_4 = [['忍太郎','A',3],['糖糖','C',0],['阿土伯','B',1]]
 
 
 group_d = ["莎拉公主","金贝贝","宫本宝藏"]
@@ -63,7 +68,7 @@ days_between_dates = time_between_dates.days
 
 
 
-
+#  Select dfw teams
  
 def dfw_team_select(result,pot,group_num,flag):
     back_up = copy.deepcopy(result)
@@ -72,7 +77,7 @@ def dfw_team_select(result,pot,group_num,flag):
     for index in range(0,group_num):
         get_flag = False
         for key,nation in enumerate(temp):
-            if result[index].valid_check(nation):
+            if (flag and result[index].valid_check_ver_2(nation) ) or ( not flag and result[index].valid_check(nation) ):
                 result[index].member_update(nation,flag)
                 result[index].nations.append(nation[0])
                 temp.pop(key)
@@ -85,6 +90,10 @@ def dfw_team_select(result,pot,group_num,flag):
     for group in result:
         random.shuffle(group.nations)
     return result
+
+
+# SELECT WC TEAMS
+
 
 def team_select(result,pot,group_num): 
     back_up = copy.deepcopy(result)
@@ -173,29 +182,32 @@ def dfw_classification_draw():
         print(chr(65+i),"组赛程：")
         schedule_helper(6)
     
-
-
 def dfw_group_stage_schedule():
+    for i in ['D','E','F']:
+        print(i,"组赛程:")
+        schedule_helper(6,False)
+
+# def dfw_group_stage_schedule():
     
-    random_number_of_days = random.randrange(days_between_dates)
+#     random_number_of_days = random.randrange(days_between_dates)
 
-    random_number_of_days_two = random.randrange(days_between_dates)
+#     random_number_of_days_two = random.randrange(days_between_dates)
 
-    random_date = start_date + datetime.timedelta(days=random_number_of_days)
+#     random_date = start_date + datetime.timedelta(days=random_number_of_days)
 
-    random_date_two = start_date + datetime.timedelta(days=random_number_of_days_two)
+#     random_date_two = start_date + datetime.timedelta(days=random_number_of_days_two)
 
 
 
-    map2 = map.copy()
+#     map2 = map.copy()
 
-    random.shuffle(map2)
+#     random.shuffle(map2)
 
-    order = "先手" if random.randint(0,1) == 0 else "后手"
+#     order = "先手" if random.randint(0,1) == 0 else "后手"
 
-    print("小组赛开始日期：1.",random_date," 2.",random_date_two)
-    print("选择地图: 1.",map2[0]," 2.",map2[1])
-    print("先后顺序: ",order)
+#     print("小组赛开始日期：1.",random_date," 2.",random_date_two)
+#     print("选择地图: 1.",map2[0]," 2.",map2[1])
+#     print("先后顺序: ",order)
 
 def dfw_knockout_draw():
 
@@ -266,7 +278,8 @@ def dfw_knockout_draw():
        
 
 
-def schedule_helper(round):
+def schedule_helper(round,extra_round_flag = True):
+    round += 1 if extra_round_flag else 0
     random_days_list = [""] * round
     random_number_list = [""] * round
     for i in range(round):
@@ -277,12 +290,14 @@ def schedule_helper(round):
 
     map_copy = map.copy()
     random.shuffle(map_copy)
-    if round>4 and round <=8 :
+    for i in range(int(round/4)) :
         map_copy2 = map.copy()
         random.shuffle(map_copy2)
         map_copy += map_copy2
     for i in range(round):
         print("第",str(i+1),"轮: 地图: ",map_copy[i]," 开始时间: ",random_days_list[i])
+    if extra_round_flag:
+        print("附加轮 地图: ",map_copy[round]," 开始时间: ",random_days_list[round])  
 
 
 def dfw_knockout_schedule():
@@ -297,6 +312,11 @@ def dfw_final():
     schedule_helper(5)
 
 def def_classification_final_round_schedule():
+    group_winners = ["A1","B1","C1","D1"]
+    random.shuffle(group_winners)
+    print("排位赛决赛轮开始顺序： ")
+    for i in group_winners:
+        print(i)
     schedule_helper(4)
 
 def olympic_knockout_stage_draw():
