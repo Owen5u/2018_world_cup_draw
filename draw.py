@@ -43,10 +43,15 @@ tier_3 = [['小丹尼','B',3],['沙隆巴斯','B',2],['孙小美','C',2]]
 tier_4 = [['忍太郎','A',3],['糖糖','C',0],['阿土伯','B',1]]
 
 
-group_d = ["莎拉公主","金贝贝","宫本宝藏"]
-group_e = ["忍太郎","阿土伯","钱夫人"]
-group_f = ["约翰乔","沙隆巴斯",""]
-group_runner_ups = ["沙隆巴斯","金贝贝","阿土伯"] 
+# group_e = ["莎拉公主","金贝贝","宫本宝藏"]
+# group_e = ["忍太郎","阿土伯","钱夫人"]
+# group_f = ["约翰乔","沙隆巴斯",""]
+# group_runner_ups = ["沙隆巴斯","金贝贝","阿土伯"] 
+
+group_e = ["乌咪","沙隆巴斯",""]
+group_f = ["金贝贝","孙小美","忍太郎"]
+group_g = ["莎拉公主","小丹尼","钱夫人"]
+group_runner_ups = ["沙隆巴斯","小丹尼","孙小美"] 
 
 map = ["台湾","中国大陆","日本","美国"]
 
@@ -214,36 +219,33 @@ def dfw_knockout_draw():
 
     r = random.randrange(6)
     if r ==0:
-        pivot = group_d
-        pivot_next = group_e
-        pivot_prev = group_f
+        pivot = group_e
+        pivot_next = group_f
+        pivot_prev = group_g
     elif r==1:
-        pivot = group_e
-        pivot_next = group_f
-        pivot_prev = group_d
-    elif r==2:
         pivot = group_f
-        pivot_next = group_d
+        pivot_next = group_g
         pivot_prev = group_e
+    elif r==2:
+        pivot = group_g
+        pivot_next = group_e
+        pivot_prev = group_f
     elif r==3:
-        pivot = group_d
+        pivot = group_e
+        pivot_next = group_g
+        pivot_prev = group_f
+    elif r==4:
+        pivot = group_g
         pivot_next = group_f
         pivot_prev = group_e
-    elif r==4:
+    else:
         pivot = group_f
         pivot_next = group_e
-        pivot_prev = group_d
-    else:
-        pivot = group_e
-        pivot_next = group_d
-        pivot_prev = group_f
+        pivot_prev = group_g
     
-
-    
-
 
     possible_rivalry_dict={pivot[0]:[pivot_next[2],pivot_prev[2]], pivot_next[0]:pivot_prev[1],pivot_prev[0]:[pivot[2],pivot_next[2]]}
-
+    
     if group_runner_ups.index(pivot[1]) < group_runner_ups.index(pivot_next[1]):
         possible_rivalry_dict[pivot[1]] = pivot_next[1]
     else:
@@ -301,7 +303,7 @@ def schedule_helper(round,extra_round_flag = True):
 
 
 def dfw_knockout_schedule():
-    schedule_helper(3)
+    schedule_helper(5,False)
 
 
 def dfw_knockout_ranking():
