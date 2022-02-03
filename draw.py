@@ -307,7 +307,7 @@ def dfw_knockout_schedule():
 
 
 def dfw_knockout_ranking():
-    schedule_helper(1)
+    schedule_helper(3,False)
 
 
 def dfw_final():
