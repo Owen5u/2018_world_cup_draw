@@ -20,9 +20,9 @@ beginner = [['乌咪',0],['孙小美',0],['糖糖',0]]
 middle = [['阿土伯',1],['小丹尼',1],['沙隆巴斯',1],['宫本宝藏',1],['莎拉公主',1]]
 upper = [['钱夫人',2],['忍太郎',2],['约翰乔',2],['金贝贝',2]]
 
-class_tier_1 = [['金贝贝',2],['莎拉公主',1],['阿土伯',1],['约翰乔',2]]
-class_tier_2 = [['宫本宝藏',1],['忍太郎',2],['沙隆巴斯',1],['钱夫人',2]]
-class_tier_3 = [['小丹尼',1],['孙小美',3],['糖糖',3],['乌咪',3]]
+# class_tier_1 = [['金贝贝',2],['莎拉公主',1],['阿土伯',1],['约翰乔',2]]
+# class_tier_2 = [['宫本宝藏',1],['忍太郎',2],['沙隆巴斯',1],['钱夫人',2]]
+# class_tier_3 = [['小丹尼',1],['孙小美',3],['糖糖',3],['乌咪',3]]
 
 
 
@@ -30,6 +30,10 @@ class_tier_3 = [['小丹尼',1],['孙小美',3],['糖糖',3],['乌咪',3]]
 first = [['约翰乔','A'],['小丹尼','B'],['莎拉公主','C'],['忍太郎','A']]
 runner_up = [['沙隆巴斯','B'],['孙小美','C'],['宫本宝藏','B'],['金贝贝','A']]
 last = [['乌咪','C'],['钱夫人','A'],['阿土伯','B'],['糖糖','C']]
+
+class_tier_1 = [['沙隆巴斯','B'],['小丹尼','B'],['莎拉公主','C'],['钱夫人','A']]
+class_tier_2 = [['金贝贝','A'],['孙小美','C'],['乌咪','C'],['忍太郎','A']]
+class_tier_3 = [['糖糖','C'],['阿土伯','B'],['宫本宝藏','B'],['约翰乔','A']]
 
 
 # tier_1 = [['钱夫人','A'],['沙隆巴斯','B'],['金贝贝','A']]
@@ -64,12 +68,9 @@ best_runner_up = "比利时"
 
 
 start_date = datetime.date(2010, 1, 1)
-end_date = datetime.date(2011, 1, 1)
+end_date = datetime.date(2014, 1, 1)
 time_between_dates = end_date - start_date
 days_between_dates = time_between_dates.days
-
-
-
 
 
 
@@ -97,34 +98,6 @@ def dfw_team_select(result,pot,group_num,flag):
     return result
 
 
-# SELECT WC TEAMS
-
-
-def team_select(result,pot,group_num): 
-    back_up = copy.deepcopy(result)
-    temp = copy.deepcopy(pot)
-    if ['Russia', 0, 65] in temp:
-        temp2 = temp[1:]
-        random.shuffle(temp2)
-        temp[1:] = temp2
-    else:
-        random.shuffle(temp)
-    for index in range(0,group_num):
-        get_flag = False
-        for key,nation in enumerate(temp):
-            if result[index].valid_check(nation):
-                result[index].member_update(nation)
-                result[index].nations.append(nation[0])
-                temp.pop(key)
-                get_flag = True
-                break
-        if not get_flag:
-            result = copy.deepcopy(back_up)
-            result = team_select(result,pot,group_num)
-            break
-    return result
-
-
 def print_pots(pot,m):
         if m> len(pot):
             return 'Error!'
@@ -136,20 +109,6 @@ def print_pots(pot,m):
         string = string[:-1]
         print(string)
 
-
-    
-
-def world_cup_draw():
-    for i in range(4):
-        print_pots(pot,i)
-    result = []
-    for i in range(0,8):
-        result.append(group(i))
-    for item in pot:
-        result = team_select(result,item,8)
-
-    for item in result:
-        print (str(item.id) + " : " + str(item.nations))
 
 def dfw_r2_draw():
     #dfw_pot = [first,runner_up,last]
@@ -183,9 +142,18 @@ def dfw_classification_draw():
             string += nation + ","
         string = string[:-1]
         print (str(item.id) + "组 : " + string)
-    for i in range(4):
-        print(chr(65+i),"组赛程：")
-        schedule_helper(6)
+    # for i in range(4):
+    #     print(chr(65+i),"组赛程：")
+    #     schedule_helper(6)
+
+def dfw_classification_schedule():
+    schedule_helper(4,False)
+    first = random.randrange(2) + 1
+    first_rem = 3- first
+    second = random.randrange(2) + 3
+    second_rem = 7-second
+    print("先手轮: ",first,second)
+    print("后手轮: ",first_rem,second_rem)
     
 def dfw_group_stage_schedule():
     for i in ['E','F','G']:
@@ -393,11 +361,11 @@ def backtracking(table,list_a,list_b,list_b_copy,index_a,index_b):
 if __name__ == "__main__":
     while(1):
         try:
-            input_val = input("请选择你想要的功能: 1. 世界杯抽签 2.大富翁排位赛分组 3.大富翁排位赛决赛轮赛程 4.大富翁小组赛分组 5.大富翁小组赛赛程 6.大富翁淘汰赛抽签 7.大富翁淘汰赛赛程 8.大富翁排位赛赛程 9.大富翁总决赛赛程 0.退出\n")
+            input_val = input("请选择你想要的功能: 1. 大富翁排位赛分组 2.大富翁排位赛赛程 3.大富翁排位赛决赛轮赛程 4.大富翁小组赛分组 5.大富翁小组赛赛程 6.大富翁淘汰赛抽签 7.大富翁淘汰赛赛程 8.大富翁排位赛赛程 9.大富翁总决赛赛程 0.退出\n")
             if input_val=="1":
-                world_cup_draw()
-            elif input_val=="2":
                 dfw_classification_draw()
+            elif input_val=="2":
+                dfw_classification_schedule()
             elif input_val=="3":
                 def_classification_final_round_schedule()
             elif input_val=="4":
