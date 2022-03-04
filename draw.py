@@ -154,6 +154,9 @@ def dfw_classification_schedule():
     second_rem = 7-second
     print("先手轮: ",first,second)
     print("后手轮: ",first_rem,second_rem)
+
+def dfw_classification_tiebreaker_schedule():
+    schedule_helper(1,False)
     
 def dfw_group_stage_schedule():
     for i in ['E','F','G']:
@@ -270,24 +273,24 @@ def schedule_helper(round,extra_round_flag = True):
         print("附加轮 地图: ",map_copy[round]," 开始时间: ",random_days_list[round])  
 
 
-def dfw_knockout_schedule():
+
+
+
+def dfw_BO5():
     schedule_helper(5,False)
 
 
-def dfw_knockout_ranking():
+def dfw_BO3():
     schedule_helper(3,False)
 
 
-def dfw_final():
-    schedule_helper(5)
-
-def def_classification_final_round_schedule():
-    group_winners = ["A1","B1","C1","D1"]
-    random.shuffle(group_winners)
-    print("排位赛决赛轮开始顺序： ")
-    for i in group_winners:
-        print(i)
-    schedule_helper(4)
+# def dfw_classification_final_round_schedule():
+#     group_winners = ["A1","B1","C1","D1"]
+#     random.shuffle(group_winners)
+#     print("排位赛决赛轮开始顺序： ")
+#     for i in group_winners:
+#         print(i)
+#     schedule_helper(4)
 
 def olympic_knockout_stage_draw():
     upper_half = [i[0] for i in olympic_groups]
@@ -361,13 +364,13 @@ def backtracking(table,list_a,list_b,list_b_copy,index_a,index_b):
 if __name__ == "__main__":
     while(1):
         try:
-            input_val = input("请选择你想要的功能: 1. 大富翁排位赛分组 2.大富翁排位赛赛程 3.大富翁排位赛决赛轮赛程 4.大富翁小组赛分组 5.大富翁小组赛赛程 6.大富翁淘汰赛抽签 7.大富翁淘汰赛赛程 8.大富翁排位赛赛程 9.大富翁总决赛赛程 0.退出\n")
+            input_val = input("请选择你想要的功能: 1. 大富翁排位赛分组 2.大富翁排位赛赛程 3.大富翁排位赛附加赛赛程 4.大富翁小组赛分组 5.大富翁小组赛赛程 6.大富翁淘汰赛抽签 7. BO5赛程 8.BO3赛程 0.退出\n")
             if input_val=="1":
                 dfw_classification_draw()
             elif input_val=="2":
                 dfw_classification_schedule()
             elif input_val=="3":
-                def_classification_final_round_schedule()
+                dfw_classification_tiebreaker_schedule()
             elif input_val=="4":
                 dfw_r2_draw()
             elif input_val =="5":
@@ -375,11 +378,9 @@ if __name__ == "__main__":
             elif input_val =="6":
                 dfw_knockout_draw()
             elif input_val =="7":
-                dfw_knockout_schedule()
+                dfw_BO5()
             elif input_val =="8":
-                dfw_knockout_ranking()
-            elif input_val == "9":
-                dfw_final()
+                dfw_BO3()
             elif input_val =="0":
                 exit()
             elif input_val =="10":
