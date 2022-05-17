@@ -158,10 +158,12 @@ def dfw_classification_schedule():
 def dfw_classification_tiebreaker_schedule():
     schedule_helper(1,False)
     
-def dfw_group_stage_schedule():
-    for i in ['E','F','G']:
-        print(i,"组赛程:")
-        schedule_helper(6,False)
+# def dfw_group_stage_schedule():
+#     for i in ['E','F','G']:
+#         print(i,"组赛程:")
+#         schedule_helper(6,False)
+
+
 
 # def dfw_group_stage_schedule():
     
@@ -184,6 +186,50 @@ def dfw_group_stage_schedule():
 #     print("小组赛开始日期：1.",random_date," 2.",random_date_two)
 #     print("选择地图: 1.",map2[0]," 2.",map2[1])
 #     print("先后顺序: ",order)
+
+def dfw_group_stage():
+    t1 = ["小丹尼","约翰乔"]
+    t2=["钱夫人","忍太郎"]
+    t3=["阿土伯","莎拉公主"]
+    t4= ["孙小美","乌咪","宫本宝藏","糖糖"]
+
+    group_e = []
+    group_f = []
+
+    r1 = random.randrange(2)
+    r2 = random.randrange(2)
+    r3 = random.randrange(2)
+    r4 = random.sample(t4,k=2)
+
+    group_e.append(t1[r1])
+    group_f.append(t1[1-r1])
+    group_e.append(t2[r2])
+    group_f.append(t2[1-r2])
+    group_e.append(t3[r3])
+    group_f.append(t3[1-r3])
+    for ele in r4:
+        group_e.append(ele)
+    for ele in [x for x in t4 if x not in r4]:
+        group_f.append(ele)
+    random.shuffle(group_e)
+    random.shuffle(group_f)
+
+    
+    string = ","
+    string = string.join(group_e)
+    print ("E组 : " + string)
+
+    string = ","
+    string = string.join(group_f)
+    print ("F组 : " + string)
+
+def dfw_group_stage_schedule():
+    schedule_helper(2,False)
+    first = random.randrange(2) + 1
+    first_rem = 3- first
+    print("先手轮: ",first)
+    print("后手轮: ",first_rem)
+    
 
 def dfw_knockout_draw():
 
@@ -372,7 +418,7 @@ if __name__ == "__main__":
             elif input_val=="3":
                 dfw_classification_tiebreaker_schedule()
             elif input_val=="4":
-                dfw_r2_draw()
+                dfw_group_stage()
             elif input_val =="5":
                 dfw_group_stage_schedule()
             elif input_val =="6":
