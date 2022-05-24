@@ -1,9 +1,11 @@
 from itertools import permutations
 from copy import deepcopy
+import random
+
 n = 5
-result = []
+result=[]
 players= list(range(n))
-match_matrix= [[-1 for i in range(n)] for i in range(2*n)]      #奇数是2n偶数是2(n-1)
+match_matrix= [[-1 for i in range(n)] for i in range(2*n)] if n % 2 == 1 else [[-1 for i in range(n)] for i in range(2*(n-1))]     #奇数是2n偶数是2(n-1)
 visited_matrix= [[False for i in range(n)] for i in range(n)] 
 # match_matrix[0][0] = 3
 # match_matrix[0][1] = 4
@@ -17,9 +19,9 @@ visited_matrix= [[False for i in range(n)] for i in range(n)]
 # match_matrix[4][1] = 2 
 
 def duplicate():
-    global match_matrix
-    for i in range(5):
-        for j in range(5):
+    global match_matrix,n
+    for i in range(n):
+        for j in range(n):
             if match_matrix[i][j] != -1:
                 opponent = match_matrix[i][j]
                 match_matrix[i+5][opponent] = j
@@ -55,10 +57,12 @@ def isValid(level):
 #                 ]
 
 
+
+
 def backtracking(level):
     global match_matrix,n,result
     if level == n:
-        result = deepcopy(match_matrix)
+        result = deepcopy(match_matrix[:n])
         return
     
     for i in range(n):
@@ -67,6 +71,7 @@ def backtracking(level):
         
         players.remove(i)
         perm = list(permutations(players))
+        random.shuffle(perm)
         for m1,m2,m3,m4 in perm:
             if visited_matrix[m1][m2] or visited_matrix[m3][m4]:
                 continue
@@ -102,7 +107,22 @@ def backtracking(level):
 
 
 backtracking(0)
-print(result)
+for i in range(n):
+    cur = result[i]
+    result.append([-1] * n)
+    for j in range(n):
+        if result[i][j] != -1:
+            opponent = result[i][j]
+            result[i+n][opponent] = j
+
+for i in range(len(result)):
+    print("第",(i+1),"轮赛程 : ",end=" ")
+    string = ""
+    for j in range(n):
+        if result[i][j] != -1:
+            string += str(j+1)+" VS "+str(result[i][j]+1)+"  "
+    print(string)
+    
 
 
     
