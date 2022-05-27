@@ -251,7 +251,12 @@ def dfw_knockout_draw():
 
     zone_one = [tuple_one[0],tuple_two[0]]
     zone_two = [tuple_one[1],tuple_two[1]]
+
+    random.shuffle(zone_one)
+    random.shuffle(zone_two)
+
     zone = [zone_one,zone_two]
+
     random.shuffle(zone)
 
     print("淘汰赛对阵:")
