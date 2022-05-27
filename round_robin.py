@@ -7,16 +7,7 @@ result=[]
 players= list(range(n))
 match_matrix= [[-1 for i in range(n)] for i in range(2*n)] if n % 2 == 1 else [[-1 for i in range(n)] for i in range(2*(n-1))]     #奇数是2n偶数是2(n-1)
 visited_matrix= [[False for i in range(n)] for i in range(n)] 
-# match_matrix[0][0] = 3
-# match_matrix[0][1] = 4
-# match_matrix[1][3] = 2
-# match_matrix[1][1] = 0
-# match_matrix[2][0] = 2
-# match_matrix[2][4] = 3
-# match_matrix[3][2] = 4
-# match_matrix[3][3] = 1
-# match_matrix[4][0] = 4
-# match_matrix[4][1] = 2 
+# match_matrix[a][b] = c means in round a, player b plays home against player c.
 
 def duplicate():
     global match_matrix,n
@@ -42,21 +33,6 @@ def isValid(level):
         
     
     return True
-
-
-# match_matrix = [[0,3,1,4,2],
-#                 [3,2,1,0,4],
-#                 [0,2,4,3,1],
-#                 [2,4,3,1,0],
-#                 [0,4,1,2,3],
-#                 [4,1,3,0,2],
-#                 [0,1,2,3,4],
-#                 [3,4,2,0,1],
-#                 [1,3,4,2,0],
-#                 [2,1,4,0,3]
-#                 ]
-
-
 
 
 def backtracking(level):

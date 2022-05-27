@@ -232,68 +232,101 @@ def dfw_group_stage_schedule():
     
 
 def dfw_knockout_draw():
-
-
-    r = random.randrange(6)
-    if r ==0:
-        pivot = group_e
-        pivot_next = group_f
-        pivot_prev = group_g
-    elif r==1:
-        pivot = group_f
-        pivot_next = group_g
-        pivot_prev = group_e
-    elif r==2:
-        pivot = group_g
-        pivot_next = group_e
-        pivot_prev = group_f
-    elif r==3:
-        pivot = group_e
-        pivot_next = group_g
-        pivot_prev = group_f
-    elif r==4:
-        pivot = group_g
-        pivot_next = group_f
-        pivot_prev = group_e
-    else:
-        pivot = group_f
-        pivot_next = group_e
-        pivot_prev = group_g
+    top_two=["沙隆巴斯","金贝贝"]
+    bottom_two=["宫本宝藏","阿土伯"]
     
+    random.shuffle(top_two)
+    random.shuffle(bottom_two)
 
-    possible_rivalry_dict={pivot[0]:[pivot_next[2],pivot_prev[2]], pivot_next[0]:pivot_prev[1],pivot_prev[0]:[pivot[2],pivot_next[2]]}
-    
-    if group_runner_ups.index(pivot[1]) < group_runner_ups.index(pivot_next[1]):
-        possible_rivalry_dict[pivot[1]] = pivot_next[1]
-    else:
-        possible_rivalry_dict[pivot_next[1]] = pivot[1]
-    
+    match_one = [top_two[0],bottom_two[0]]
+    match_two = [top_two[1],bottom_two[1]]
+    match_three = ["钱夫人","小丹尼"]
+    match_four = ["忍太郎","莎拉公主"]
+
+    tuple_one = [match_one,match_two]
+    tuple_two = [match_three,match_four]
+
+    random.shuffle(tuple_one)
+    random.shuffle(tuple_two)
+
+    zone_one = [tuple_one[0],tuple_two[0]]
+    zone_two = [tuple_one[1],tuple_two[1]]
+    zone = [zone_one,zone_two]
+    random.shuffle(zone)
+
+    print("淘汰赛对阵:")
+    print("上半区: ")
+    print("第一场: ",zone[0][0][0]," VS ",zone[0][0][1])
+    print("第一场: ",zone[0][1][0]," VS ",zone[0][1][1])
+    print("下半区: ")
+    print("第一场: ",zone[1][0][0]," VS ",zone[1][0][1])
+    print("第一场: ",zone[1][1][0]," VS ",zone[1][1][1])
+
     
 
-    only_choice = ""
-    
-    for k in possible_rivalry_dict.keys():
-        if isinstance(possible_rivalry_dict[k],list) and "" in possible_rivalry_dict[k]:
+# def dfw_knockout_draw():
 
-            possible_rivalry_dict[k].remove("")
-            only_choice = ''.join(possible_rivalry_dict[k])
-            possible_rivalry_dict[k] = only_choice
-    
-    for k in possible_rivalry_dict.keys():
-        if isinstance(possible_rivalry_dict[k],list) and only_choice in possible_rivalry_dict[k]:
-            possible_rivalry_dict[k].remove(only_choice)
-            the_other_only_choice = ''.join(possible_rivalry_dict[k])
-            possible_rivalry_dict[k] = the_other_only_choice
 
-    knockout_list = []
-    for key,value in possible_rivalry_dict.items():
-        knockout_list.append([key,value])
+#     r = random.randrange(6)
+#     if r ==0:
+#         pivot = group_e
+#         pivot_next = group_f
+#         pivot_prev = group_g
+#     elif r==1:
+#         pivot = group_f
+#         pivot_next = group_g
+#         pivot_prev = group_e
+#     elif r==2:
+#         pivot = group_g
+#         pivot_next = group_e
+#         pivot_prev = group_f
+#     elif r==3:
+#         pivot = group_e
+#         pivot_next = group_g
+#         pivot_prev = group_f
+#     elif r==4:
+#         pivot = group_g
+#         pivot_next = group_f
+#         pivot_prev = group_e
+#     else:
+#         pivot = group_f
+#         pivot_next = group_e
+#         pivot_prev = group_g
     
-    random.shuffle(knockout_list)
-    print("抽签顺序: ",str(r+1))
-    print("对阵情况如下：")
-    for i in range(len(knockout_list)):
-        print("第",str(i+1),"场对决: ",knockout_list[i][0]," VS ",knockout_list[i][1])
+
+#     possible_rivalry_dict={pivot[0]:[pivot_next[2],pivot_prev[2]], pivot_next[0]:pivot_prev[1],pivot_prev[0]:[pivot[2],pivot_next[2]]}
+    
+#     if group_runner_ups.index(pivot[1]) < group_runner_ups.index(pivot_next[1]):
+#         possible_rivalry_dict[pivot[1]] = pivot_next[1]
+#     else:
+#         possible_rivalry_dict[pivot_next[1]] = pivot[1]
+    
+    
+
+#     only_choice = ""
+    
+#     for k in possible_rivalry_dict.keys():
+#         if isinstance(possible_rivalry_dict[k],list) and "" in possible_rivalry_dict[k]:
+
+#             possible_rivalry_dict[k].remove("")
+#             only_choice = ''.join(possible_rivalry_dict[k])
+#             possible_rivalry_dict[k] = only_choice
+    
+#     for k in possible_rivalry_dict.keys():
+#         if isinstance(possible_rivalry_dict[k],list) and only_choice in possible_rivalry_dict[k]:
+#             possible_rivalry_dict[k].remove(only_choice)
+#             the_other_only_choice = ''.join(possible_rivalry_dict[k])
+#             possible_rivalry_dict[k] = the_other_only_choice
+
+#     knockout_list = []
+#     for key,value in possible_rivalry_dict.items():
+#         knockout_list.append([key,value])
+    
+#     random.shuffle(knockout_list)
+#     print("抽签顺序: ",str(r+1))
+#     print("对阵情况如下：")
+#     for i in range(len(knockout_list)):
+#         print("第",str(i+1),"场对决: ",knockout_list[i][0]," VS ",knockout_list[i][1])
        
 
 
