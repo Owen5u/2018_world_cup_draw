@@ -31,10 +31,14 @@ first = [['约翰乔','A'],['小丹尼','B'],['莎拉公主','C'],['忍太郎','
 runner_up = [['沙隆巴斯','B'],['孙小美','C'],['宫本宝藏','B'],['金贝贝','A']]
 last = [['乌咪','C'],['钱夫人','A'],['阿土伯','B'],['糖糖','C']]
 
-class_tier_1 = [['沙隆巴斯','B'],['小丹尼','B'],['莎拉公主','C'],['钱夫人','A']]
-class_tier_2 = [['金贝贝','A'],['孙小美','C'],['乌咪','C'],['忍太郎','A']]
-class_tier_3 = [['糖糖','C'],['阿土伯','B'],['宫本宝藏','B'],['约翰乔','A']]
+# class_tier_1 = [['沙隆巴斯','B'],['小丹尼','B'],['莎拉公主','C'],['钱夫人','A']]
+# class_tier_2 = [['金贝贝','A'],['孙小美','C'],['乌咪','C'],['忍太郎','A']]
+# class_tier_3 = [['糖糖','C'],['阿土伯','B'],['宫本宝藏','B'],['约翰乔','A']]
 
+class_tier_1 = [['沙隆巴斯','B'],['钱夫人','A'],['小丹尼','B']]
+class_tier_2 = [['莎拉公主','B'],['忍太郎','A'],['阿土伯','B']]
+class_tier_3 = [['宫本宝藏','B'],['金贝贝','A'],['约翰乔','A']]
+class_tier_4 = [['孙小美','C'],['乌咪','C'],['糖糖','C']]
 
 # tier_1 = [['钱夫人','A'],['沙隆巴斯','B'],['金贝贝','A']]
 # tier_2 = [['孙小美','C'],['小丹尼','B'],['忍太郎','A']]
@@ -126,19 +130,21 @@ def dfw_r2_draw():
         print (str(item.id) + " : " + str(item.nations))
 
 def dfw_classification_draw():
-    dfw_pot = [class_tier_1.copy(),class_tier_2.copy(),class_tier_3.copy()]
-    for i in range(3):
+    dfw_pot = [class_tier_1.copy(),class_tier_2.copy(),class_tier_3.copy(),class_tier_4.copy()]
+    for i in range(4):
         print_pots(dfw_pot,i)
     result = []
-    for i in range(0,4):
+    for i in range(0,3):
         result.append(dfw_group(i))
     for item in dfw_pot:
-        result = dfw_team_select(result,item,4,False)
+        result = dfw_team_select(result,item,3,False)
 
 
     for item in result:
         string = ""
-        for nation in (item.nations):
+        nat = item.nations
+        random.shuffle(nat)
+        for nation in nat:
             string += nation + ","
         string = string[:-1]
         print (str(item.id) + "组 : " + string)
@@ -146,14 +152,14 @@ def dfw_classification_draw():
     #     print(chr(65+i),"组赛程：")
     #     schedule_helper(6)
 
-def dfw_classification_schedule():
-    schedule_helper(4,False)
-    first = random.randrange(2) + 1
-    first_rem = 3- first
-    second = random.randrange(2) + 3
-    second_rem = 7-second
-    print("先手轮: ",first,second)
-    print("后手轮: ",first_rem,second_rem)
+# def dfw_classification_schedule():
+#     schedule_helper(4,False)
+#     first = random.randrange(2) + 1
+#     first_rem = 3- first
+#     second = random.randrange(2) + 3
+#     second_rem = 7-second
+#     print("先手轮: ",first,second)
+#     print("后手轮: ",first_rem,second_rem)
 
 def dfw_classification_tiebreaker_schedule():
     schedule_helper(1,False)
@@ -431,7 +437,41 @@ def backtracking(table,list_a,list_b,list_b_copy,index_a,index_b):
     
     return
 
+def dfw_classification_schedule():
+    random_days_list = [[""] * 2 for i in range(12)]
+    random_number_list = [[""] * 2 for i in range(12)]
+    random_map_list = [[""] * 2 for i in range(12)]
+    
+    for i in range(2):
 
+
+        for j in range(3):
+
+            game_list = [2*j,2*j+1,2*j+6,2*j+7]
+            map_copy = map.copy()
+            random.shuffle(map_copy)
+
+            for r,k in enumerate(game_list):
+
+                random_number_list[k][i] = random.randrange(days_between_dates)
+                temp_day = (start_date+ datetime.timedelta(days=random_number_list[k][i]))
+                y,m,d = str(temp_day.year),str(temp_day.month),str(temp_day.day)
+                random_days_list[k][i] = y + "/" + m + "/" + d
+                random_map_list[k][i] = map_copy[r]               
+            
+    for i in range(6):
+        print("第",str((int)(i/2)+1),"轮第",(int)(i%2+1),"局:")
+        string = ""
+        for j in range(2):
+            string += "第"+str(j+1)+"场: 地图: "+str(random_map_list[i][j])+" 开始时间: "+str(random_days_list[i][j])+" "
+        print(string)
+
+    for i in range(6):
+        print("第",str((int)(i/2)+4),"轮第",(int)(i%2+1),"局:")
+        string = ""
+        for j in range(2):
+            string += "第"+str(j+1)+"场: 地图: "+str(random_map_list[i+6][1-j])+" 开始时间: "+str(random_days_list[i+6][1-j])+" "
+        print(string)
 
 # def testing():
 #     A=["中国","西班牙","美国"]
