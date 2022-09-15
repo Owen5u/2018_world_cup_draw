@@ -4,7 +4,7 @@ import sys
 import datetime
 from group_config import *
 
-group = ['A','B','C','D']
+group = ['A','B','C']
 map = ["台湾","中国大陆","日本","美国"]
 start_date = datetime.date(2010, 1, 1)
 end_date = datetime.date(2014, 1, 1)
