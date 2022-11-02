@@ -51,34 +51,33 @@ def backtracking(level):
         random.shuffle(perm)
         for permutation in perm:
             # not finished yet!
-            if visited_matrix[m1][m2] or visited_matrix[m3][m4]:
-                continue
-            match_matrix[level][m1] = m2
-            match_matrix[level][m3] = m4
-            visited_matrix[m1][m2] = True
-            visited_matrix[m2][m1] = True
-            visited_matrix[m3][m4] = True
-            visited_matrix[m4][m3] = True
-            if isValid(level+1) and level < n-1 :
-                empty.append(i)
-                players.append(i)
-                backtracking(level+1)
-                players.remove(i)
-                empty.pop()
-            elif level ==n-1:
-                duplicate()
-                if isValid(2 * n):
+
+            for ele in range(int(len(permutation)/2)):
+                first, second = permutation[2*ele], permutation[2*ele+1]
+                if visited_matrix[first][second]:
+                    break
+                match_matrix[level][first] = second
+                visited_matrix[first][second] = True
+                visited_matrix[second][first] = True
+                if isValid(level+1) and level < n-1 :
                     empty.append(i)
-                    players.append(i)
+                    if n%2==1:
+                        players.append(i)
                     backtracking(level+1)
-                    players.remove(i)
-                    empty.pop()   
-            match_matrix[level][m1] = -1
-            match_matrix[level][m3] = -1
-            visited_matrix[m1][m2] = False
-            visited_matrix[m2][m1] = False
-            visited_matrix[m3][m4] = False
-            visited_matrix[m4][m3] = False
+                    if n%2==1:
+                        players.remove(i)
+                    empty.pop()
+                elif level ==n-1:
+                    duplicate()
+                    if isValid(2 * n):
+                        empty.append(i)
+                        players.append(i)
+                        backtracking(level+1)
+                        players.remove(i)
+                        empty.pop()   
+                match_matrix[level][first] = -1
+                visited_matrix[first][second] = False
+                visited_matrix[second][first] = False
             if len(result) != 0:
                 return
         if n%2==1:
@@ -93,6 +92,8 @@ for i in range(n):
         if result[i][j] != -1:
             opponent = result[i][j]
             result[i+n][opponent] = j
+
+print(match_matrix)
 
 for i in range(len(result)):
     print("第",(i+1),"轮赛程 : ",end=" ")
