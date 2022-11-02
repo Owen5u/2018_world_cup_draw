@@ -2,22 +2,24 @@ from itertools import permutations
 from copy import deepcopy
 import random
 
-n = 6
+n = 5
 result=[]
 players= list(range(n))
-match_matrix= [[-1 for i in range(n)] for i in range(2*n)] if n % 2 == 1 else [[-1 for i in range(n)] for i in range(2*(n-1))]     #奇数是2n偶数是2(n-1)
+rounds = n-1 if n%2==0 else n
+match_matrix= [[-1 for i in range(n)] for i in range(2*rounds)] 
 visited_matrix= [[False for i in range(n)] for i in range(n)]   # visited_matrix[a][b] returns true if player a and b have met before
 # match_matrix[a][b] = c means in round a, player b plays home against player c.
 
 def duplicate():
-    global match_matrix,n
-    for i in range(n):
+    global match_matrix,rounds,n
+    for i in range(rounds):
         for j in range(n):
             if match_matrix[i][j] != -1:
                 opponent = match_matrix[i][j]
-                match_matrix[i+5][opponent] = j
+                match_matrix[i+rounds][opponent] = j
 
 empty = []
+
 
 def isValid(level):
     global match_matrix
@@ -36,9 +38,9 @@ def isValid(level):
 
 
 def backtracking(level):
-    global match_matrix,n,result
-    if level == n:
-        result = deepcopy(match_matrix[:n]) if n%2 == 1 else deepcopy(match_matrix[:n-1])
+    global match_matrix,rounds,result,n
+    if level == rounds:
+        result = deepcopy(match_matrix[:rounds])
         return
     
     for i in range(n):
@@ -50,48 +52,56 @@ def backtracking(level):
         perm = list(permutations(players))
         random.shuffle(perm)
         for permutation in perm:
-            # not finished yet!
-
+            isValidFlag = True
             for ele in range(int(len(permutation)/2)):
                 first, second = permutation[2*ele], permutation[2*ele+1]
                 if visited_matrix[first][second]:
+                    isValidFlag = False
                     break
+            if not isValidFlag:
+                continue
+            for ele in range(int(len(permutation)/2)):
+                first, second = permutation[2*ele], permutation[2*ele+1]
                 match_matrix[level][first] = second
                 visited_matrix[first][second] = True
                 visited_matrix[second][first] = True
-                if isValid(level+1) and level < n-1 :
+            if isValid(level+1) and level < rounds-1 :
+                if n%2==1:
                     empty.append(i)
+                    players.append(i)
+                backtracking(level+1)
+                if n%2==1:
+                    players.pop()
+                    empty.pop()
+            elif level ==rounds-1:
+                duplicate()
+                if isValid(2 * rounds):
                     if n%2==1:
+                        empty.append(i)
                         players.append(i)
                     backtracking(level+1)
                     if n%2==1:
-                        players.remove(i)
-                    empty.pop()
-                elif level ==n-1:
-                    duplicate()
-                    if isValid(2 * n):
-                        empty.append(i)
-                        players.append(i)
-                        backtracking(level+1)
-                        players.remove(i)
+                        players.pop()
                         empty.pop()   
+            for ele in range(int(len(permutation)/2)):
+                first, second = permutation[2*ele], permutation[2*ele+1]
                 match_matrix[level][first] = -1
                 visited_matrix[first][second] = False
                 visited_matrix[second][first] = False
-            if len(result) != 0:
-                return
+        if len(result) != 0:
+            return
         if n%2==1:
             players.append(i)
 
 
 backtracking(0)
-for i in range(n):
+for i in range(rounds):
     cur = result[i]
     result.append([-1] * n)
     for j in range(n):
         if result[i][j] != -1:
             opponent = result[i][j]
-            result[i+n][opponent] = j
+            result[i+rounds][opponent] = j
 
 print(match_matrix)
 
