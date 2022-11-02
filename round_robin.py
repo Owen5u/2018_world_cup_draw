@@ -2,11 +2,11 @@ from itertools import permutations
 from copy import deepcopy
 import random
 
-n = 5
+n = 6
 result=[]
 players= list(range(n))
 match_matrix= [[-1 for i in range(n)] for i in range(2*n)] if n % 2 == 1 else [[-1 for i in range(n)] for i in range(2*(n-1))]     #奇数是2n偶数是2(n-1)
-visited_matrix= [[False for i in range(n)] for i in range(n)] 
+visited_matrix= [[False for i in range(n)] for i in range(n)]   # visited_matrix[a][b] returns true if player a and b have met before
 # match_matrix[a][b] = c means in round a, player b plays home against player c.
 
 def duplicate():
@@ -21,7 +21,7 @@ empty = []
 
 def isValid(level):
     global match_matrix
-    consecutive = [0,0,0,0,0]
+    consecutive = [0 for i in range(n)]
     for i in range(level):
         for j in range(len(match_matrix[0])):
             if match_matrix[i][j] != -1:
@@ -38,17 +38,19 @@ def isValid(level):
 def backtracking(level):
     global match_matrix,n,result
     if level == n:
-        result = deepcopy(match_matrix[:n])
+        result = deepcopy(match_matrix[:n]) if n%2 == 1 else deepcopy(match_matrix[:n-1])
         return
     
     for i in range(n):
         if i in empty:
             continue
         
-        players.remove(i)
+        if n%2==1:
+            players.remove(i)
         perm = list(permutations(players))
         random.shuffle(perm)
-        for m1,m2,m3,m4 in perm:
+        for permutation in perm:
+            # not finished yet!
             if visited_matrix[m1][m2] or visited_matrix[m3][m4]:
                 continue
             match_matrix[level][m1] = m2
@@ -79,7 +81,8 @@ def backtracking(level):
             visited_matrix[m4][m3] = False
             if len(result) != 0:
                 return
-        players.append(i)
+        if n%2==1:
+            players.append(i)
 
 
 backtracking(0)
