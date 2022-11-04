@@ -12,21 +12,33 @@ visited_matrix= [[False for i in range(n)] for i in range(n)]
 # visited_matrix[a][b] returns true if player a and b have met before
 # match_matrix[a][b] = c means in round a, player b plays home against player c.
 
+# def fillLine():
+#     global match_matrix,rounds
+#     for i in range(n):
+#             if match_matrix[0][i] != -1:
+#                 opponent = match_matrix[0][i]
+#                 match_matrix[rounds][opponent] = i
+#     return
+
+
 def duplicate():
     global match_matrix,rounds,n
+    for i in range(rounds):
+        for j in range(n):
+            match_matrix[i+rounds][j] = -1
     for i in range(rounds):
         for j in range(n):
             if match_matrix[i][j] != -1:
                 opponent = match_matrix[i][j]
                 match_matrix[i+rounds][opponent] = j
-
-empty = []
+ 
+bye = [] #轮空
 
 
 def isValid(level):
-    global match_matrix
+    global match_matrix,n
     consecutive = [0 for i in range(n)]
-    for i in range(level):
+    for i in range(level+1):
         for j in range(len(match_matrix[0])):
             if match_matrix[i][j] != -1:
                 opponent = match_matrix[i][j]
@@ -40,17 +52,17 @@ def isValid(level):
 
 
 def backtracking(level):
-    global match_matrix,rounds,result,n
+    global old_players,bye,match_matrix,rounds,result,n,players
     if level == rounds:
         result = deepcopy(match_matrix[:rounds])
         return
     
     for i in range(n):
-        if i in empty:
+        first_player = old_players[i]
+        if first_player in bye:
             continue
         
-        if n%2==1:
-            players.remove(i)
+        players.remove(first_player)
         perm = list(permutations(players))
         random.shuffle(perm)
         for permutation in perm:
@@ -60,6 +72,8 @@ def backtracking(level):
                 if visited_matrix[first][second]:
                     isValidFlag = False
                     break
+            if n%2==0 and visited_matrix[first_player][permutation[-1]]:
+                continue
             if not isValidFlag:
                 continue
             for ele in range(int(len(permutation)/2)):
@@ -67,35 +81,39 @@ def backtracking(level):
                 match_matrix[level][first] = second
                 visited_matrix[first][second] = True
                 visited_matrix[second][first] = True
-            if isValid(level+1) and level < rounds-1 :
+            if n%2==0:
+                match_matrix[level][first_player] = permutation[-1]
+                visited_matrix[first_player][permutation[-1]] = True
+                visited_matrix[permutation[-1]][first_player] = True
+            if level < rounds-1 and isValid(level) :
                 if n%2==1:
-                    empty.append(i)
-                    players.append(i)
+                    bye.append(first_player)
+                players.append(first_player)
                 backtracking(level+1)
+                players.remove(first_player)
                 if n%2==1:
-                    players.pop()
-                    empty.pop()
+                    bye.pop()
             elif level ==rounds-1:
                 duplicate()
-                if isValid(2 * rounds):
+                if isValid(2*rounds-1):
                     if n%2==1:
-                        empty.append(i)
-                        players.append(i)
+                        bye.append(first_player)
+                    players.append(first_player)
                     backtracking(level+1)
+                    players.remove(first_player)
                     if n%2==1:
-                        players.pop()
-                        empty.pop()   
+                        bye.pop()   
             for ele in range(int(len(permutation)/2)):
                 first, second = permutation[2*ele], permutation[2*ele+1]
                 match_matrix[level][first] = -1
                 visited_matrix[first][second] = False
                 visited_matrix[second][first] = False
-        if len(result) != 0:
-            return
-        if n%2==1:
-            players.append(i)
+            if len(result) != 0:
+                return
+        players.append(first_player)
 
-
+random.shuffle(players)
+old_players = deepcopy(players)
 backtracking(0)
 for i in range(rounds):
     cur = result[i]
@@ -105,7 +123,7 @@ for i in range(rounds):
             opponent = result[i][j]
             result[i+rounds][opponent] = j
 
-print(match_matrix)
+
 
 for i in range(len(result)):
     print("第",(i+1),"轮赛程 : ",end=" ")
