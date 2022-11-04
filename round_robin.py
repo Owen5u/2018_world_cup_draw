@@ -2,12 +2,14 @@ from itertools import permutations
 from copy import deepcopy
 import random
 
-n = 5
-result=[]
+n = 5  # number of players
+result=[]   # list of valid schedules
 players= list(range(n))
 rounds = n-1 if n%2==0 else n
 match_matrix= [[-1 for i in range(n)] for i in range(2*rounds)] 
-visited_matrix= [[False for i in range(n)] for i in range(n)]   # visited_matrix[a][b] returns true if player a and b have met before
+visited_matrix= [[False for i in range(n)] for i in range(n)]   
+
+# visited_matrix[a][b] returns true if player a and b have met before
 # match_matrix[a][b] = c means in round a, player b plays home against player c.
 
 def duplicate():
